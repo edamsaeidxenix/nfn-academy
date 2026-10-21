@@ -647,6 +647,7 @@ body.login-mode main{max-width:520px;padding:0}
 <dialog id="sheet"><form id="sheetForm" method="dialog"></form></dialog>
 <div id="toast" role="status"></div>
 
+<script src="db-client.js"></script>
 <script>
 (function(){
 const SKILLS=[["control","Ball control"],["passing","Passing"],["shooting","Shooting"],["dribbling","Dribbling"],["defending","Defending"],["fitness","Fitness"],["teamwork","Teamwork"],["attitude","Attitude"]];
@@ -691,25 +692,29 @@ function ready(){return forceReady||mode==="local"||(mode==="cloud"&&loaded.size
 function saveLocal(){try{const o={settings};COLS.forEach(c=>o[c]=data[c]);localStorage.setItem(LS_KEY,JSON.stringify(o))}catch(e){}}
 function loadLocal(){try{const j=JSON.parse(localStorage.getItem(LS_KEY)||"null");if(j){COLS.forEach(c=>data[c]=j[c]||{});if(j.settings)settings=Object.assign({},settings,j.settings)}}catch(e){}}
 
+function makeDownloads(){
+  return {save:async function(o){
+    var b=o.data instanceof Blob?o.data:new Blob([o.data],{type:"text/plain"});
+    var u=URL.createObjectURL(b),a=document.createElement("a");
+    a.href=u;a.download=o.filename;document.body.appendChild(a);a.click();
+    document.body.removeChild(a);setTimeout(function(){URL.revokeObjectURL(u)},1000);
+  }};
+}
 async function init(){
   $("#hdrDate").textContent=new Date().toLocaleDateString(undefined,{weekday:"long",day:"numeric",month:"long"});
   render();
   setTimeout(()=>{if(!ready()){forceReady=true;render()}},9000);
-  const hasUse=window.claude&&typeof window.claude.use==="function";
-  if(hasUse)window.claude.use("downloads").then(d=>{DL=d;render()}).catch(()=>{});
-  let db=null;
-  try{if(hasUse)db=await window.claude.use("db")}catch(e){db=null}
-  if(db){
-    DB=db;mode="cloud";
-    COLS.forEach(col=>{
-      db.collection(col).onSnapshot(snap=>{
-        const o={};snap.docs.forEach(d=>{o[d.id]=d.data()});
-        if(col==="sessions")Object.keys(pending).forEach(k=>{o[k]=pending[k]});
-        data[col]=o;loaded.add(col);render();
-      },()=>toast("Lost connection to saved data. Reload the page."));
-    });
-    db.doc("settings/academy").onSnapshot(s=>{if(s.exists)settings=Object.assign({},settings,s.data());loaded.add("settings");render()},()=>{loaded.add("settings");render()});
-  }else{mode="local";loadLocal();render()}
+  DL=makeDownloads();
+  const db=new ApiDB("");
+  DB=db;mode="cloud";
+  COLS.forEach(col=>{
+    db.collection(col).onSnapshot(snap=>{
+      const o={};snap.docs.forEach(d=>{o[d.id]=d.data()});
+      if(col==="sessions")Object.keys(pending).forEach(k=>{o[k]=pending[k]});
+      data[col]=o;loaded.add(col);render();
+    },()=>toast("Lost connection to saved data. Reload the page."));
+  });
+  db.doc("settings/academy").onSnapshot(s=>{if(s.exists)settings=Object.assign({},settings,s.data());loaded.add("settings");render()},()=>{loaded.add("settings");render()})
   initViewer();
 }
 function handleErr(e){
@@ -3598,7 +3603,7 @@ async function ttDownload(id,kind){
   if(kind==="csv"){const q=v=>{v=String(v==null?"":v);return /[",\n]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v};
     const rows=[["Date","Start","End","Competition / activity","Category","Teams / participants","Round / stage","Venue","Notes"]].concat(ttByDate(ttEntries(ev)).flatMap(([d,es])=>es.map(e=>[d,e.start,e.end,e.title,e.cat,e.teams,e.stage,e.venue,e.notes])));
     try{await DL.save({filename:base+".csv",data:rows.map(r=>r.map(q).join(",")).join("\n")})}catch(e){if(e&&e.code!=="declined")toast("Couldn't export the file here.")}return}
-  const html=`<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${esc(ev.name)} timetable</title><style>body{margin:24px}${PRINT_CSS}@media print{body{margin:0}}</style></head><body>${ttHTML(id)}<script>setTimeout(()=>{try{print()}catch(e){}},400)<\/script></body></html>`;
+  const html=`<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${esc(ev.name)} timetable</title><style>body{margin:24px}${PRINT_CSS}@media print{body{margin:0}}</style></head><body>${ttHTML(id)}\x3Cscript>setTimeout(()=>{try{print()}catch(e){}},400)\x3C\/script></body></html>`;
   try{await DL.save({filename:base+".html",data:html})}catch(e){if(e&&e.code!=="declined")toast("Couldn't save the file here.")}
 }
 
