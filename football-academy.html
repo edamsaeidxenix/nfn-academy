@@ -12,6 +12,7 @@
   --bg:#F1F4EE;--surface:#FFFFFF;--ink:#16211A;--muted:#5B6A5F;--line:#D5DDD1;--chip:#E4EBE1;
   --pitch:#1D6A3A;--pitch-2:#195E33;--on-pitch:#F4FAF5;--bib:#D9581A;
   --present:#1D8A45;--late:#A87B07;--absent:#C2412F;--excused:#5E7189;
+  --bib-ink:#B54812;--on-status:#FFFFFF;--bib-fill:#B54812;
   --radius-s:8px;--radius-m:14px;
   --display:'Barlow Condensed','Arial Narrow',Arial,sans-serif;
   --body:'Barlow',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
@@ -24,12 +25,14 @@
     --bg:#0F1611;--surface:#17211A;--ink:#E6EEE7;--muted:#97A69A;--line:#2A382E;--chip:#223026;
     --pitch:#1B5E35;--pitch-2:#17532F;--on-pitch:#EEF7F0;--bib:#F0844A;
     --present:#3BAA63;--late:#D3A22B;--absent:#E06552;--excused:#8A9DB5;
+    --bib-ink:#F0844A;--on-status:#0F1611;
   }
 }
 :root[data-theme="dark"]{
   --bg:#0F1611;--surface:#17211A;--ink:#E6EEE7;--muted:#97A69A;--line:#2A382E;--chip:#223026;
   --pitch:#1B5E35;--pitch-2:#17532F;--on-pitch:#EEF7F0;--bib:#F0844A;
   --present:#3BAA63;--late:#D3A22B;--absent:#E06552;--excused:#8A9DB5;
+  --bib-ink:#F0844A;--on-status:#0F1611;
 }
 *,*::before,*::after{box-sizing:inherit}
 html{height:100%;scroll-padding-top:env(safe-area-inset-top,0px)}
@@ -94,7 +97,7 @@ h3{font-family:var(--display);font-weight:600;font-size:1.15rem;margin:18px 0 8p
 .smeta{display:block;color:var(--muted);font-size:.88rem}
 .satt{font-family:var(--display);font-weight:600;font-size:1.1rem;color:var(--muted)}
 .tag{display:inline-block;font-size:.75rem;font-weight:600;padding:2px 8px;border-radius:999px;background:var(--chip);color:var(--ink);vertical-align:middle}
-.tag.match{background:var(--bib);color:#fff}
+.tag.match{background:var(--bib-ink);color:var(--on-status)}
 
 /* Player row */
 .prow{display:flex;align-items:center;gap:12px;width:100%;text-align:left;background:none;border:0;padding:10px 14px}
@@ -262,7 +265,7 @@ label.f textarea{min-height:76px;resize:vertical}
 .tickets{display:flex;flex-direction:column;gap:12px;margin-top:4px}
 .ticket{display:flex;width:100%;text-align:left;padding:0;border:0;background:var(--surface);color:var(--ink);border-radius:18px;position:relative;overflow:hidden;box-shadow:0 1px 0 var(--line),0 14px 30px -18px rgba(18,70,38,.55)}
 .ticket-main{flex:1;min-width:0;padding:16px 16px 18px 20px;display:flex;flex-direction:column;border-left:6px solid var(--pitch)}
-.t-label{font-weight:600;font-size:.88rem;color:var(--bib)}
+.t-label{font-weight:600;font-size:.88rem;color:var(--bib-ink)}
 .t-time{font-family:var(--display);font-weight:700;font-size:3rem;line-height:.95;margin-top:4px;letter-spacing:.005em}
 .t-title{font-weight:600;font-size:1.05rem;margin-top:6px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .t-meta{color:var(--muted);font-size:.9rem}
@@ -290,7 +293,7 @@ label.f textarea{min-height:76px;resize:vertical}
 .fixture{display:flex;gap:14px;align-items:center;width:100%;text-align:left;margin-top:16px;padding:12px 14px;border:1px solid var(--line);border-left:6px solid var(--bib);border-radius:14px;background:var(--surface);color:var(--ink)}
 .fx-date{width:48px;flex:none;text-align:center;font-size:.8rem;color:var(--muted)}
 .fx-date b{display:block;font-family:var(--display);font-size:1.8rem;line-height:1;color:var(--ink)}
-.fx-l{display:block;font-size:.82rem;font-weight:600;color:var(--bib)}
+.fx-l{display:block;font-size:.82rem;font-weight:600;color:var(--bib-ink)}
 .fx-t{display:block;font-weight:600;font-size:1.05rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .pulse{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:24px}
 .tile{display:flex;flex-direction:column;align-items:flex-start;text-align:left;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:16px;padding:14px;min-height:150px}
@@ -307,23 +310,33 @@ label.f textarea{min-height:76px;resize:vertical}
 .chev{color:var(--muted);font-size:1.4rem;line-height:1}
 .todo{display:flex;align-items:center;gap:12px;width:100%;text-align:left;border:0;background:none;padding:12px 14px;color:var(--ink)}
 .todo:hover{background:var(--chip)}
-.todo-n{width:34px;height:34px;flex:none;border-radius:50%;color:#fff;display:grid;place-items:center;font-family:var(--display);font-weight:700;font-size:1.1rem}
+.todo-n{min-width:38px;height:38px;padding:0 6px;flex:none;border-radius:999px;color:var(--on-status);display:grid;place-items:center;font-family:var(--display);font-weight:700;font-size:1.2rem}
 .todo-t{flex:1;font-weight:500}
 .allclear{display:flex;gap:12px;align-items:center}
 .formguide{display:grid;grid-template-columns:repeat(6,1fr);gap:6px}
 .fg{border:0;background:none;display:flex;flex-direction:column;align-items:center;gap:4px;padding:0;color:var(--muted);font-size:.75rem}
-.fg b{width:100%;max-width:52px;aspect-ratio:1;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-family:var(--display);font-size:1.15rem}
+.fg b{width:100%;max-width:52px;aspect-ratio:1;border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--on-status);font-family:var(--display);font-size:1.2rem}
 .fg b small{font-size:.7rem}
 .spots{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
 .spot{display:flex;flex-direction:column;align-items:flex-start;text-align:left;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:16px;padding:14px}
 .spot .shirt{width:54px;height:54px;font-size:1.5rem;margin-bottom:10px}
-.spot-l{font-size:.82rem;font-weight:600;color:var(--bib)}
+.spot-l{font-size:.82rem;font-weight:600;color:var(--bib-ink)}
 .spot-n{font-weight:600;font-size:1.05rem}
 .spot-s{font-size:.85rem;color:var(--muted)}
 .step{display:flex;align-items:center;gap:12px;padding:12px 0;border-top:1px solid var(--line)}
 .step-n{width:34px;height:34px;flex:none;border-radius:50%;background:var(--pitch);color:var(--on-pitch);display:grid;place-items:center;font-family:var(--display);font-weight:700;font-size:1.15rem}
 .step-b{flex:1;display:flex;flex-direction:column}
 @media (max-width:380px){.t-time{font-size:2.5rem}.ticket-stub{width:96px}.tile-big{font-size:2.7rem}}
+.h-count{display:inline-grid;place-items:center;min-width:26px;height:26px;padding:0 7px;margin-left:8px;border-radius:999px;background:var(--ink);color:var(--bg);font-family:var(--display);font-size:1.05rem;vertical-align:3px}
+h2 + .evban,h2 + .fixture,h2 + .pulse{margin-top:0}
+.evban + .fixture{margin-top:10px}
+.home-sub{margin:-4px 0 10px}
+.fg-key{display:flex;flex-wrap:wrap;gap:4px 14px;margin:10px 0 0;font-size:.82rem;color:var(--muted)}
+.fg-key i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:5px;vertical-align:-1px}
+.ticket,.wday,.fixture,.tile,.squadline,.todo,.fg,.spot,.evban{transition:background-color .15s ease-out,border-color .15s ease-out,transform .12s ease-out}
+.ticket:active,.fixture:active,.tile:active,.squadline:active,.spot:active,.evban:active{transform:scale(.985)}
+.fixture:hover,.squadline:hover,.spot:hover,.tile:not(.tile-pitch):hover{border-color:var(--muted)}
+@media (prefers-reduced-motion:reduce){.ticket,.wday,.fixture,.tile,.squadline,.todo,.fg,.spot,.evban{transition:none}.ticket:active,.fixture:active,.tile:active,.squadline:active,.spot:active,.evban:active{transform:none}}
 /* Schedule page */
 .wk-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:6px 0 2px}
 .wk-title{display:flex;flex-direction:column;align-items:center;text-align:center}
@@ -509,7 +522,7 @@ button.pill{cursor:pointer}
 /* Events */
 .evcard{display:flex;flex-direction:column;gap:6px;width:100%;text-align:left;border:1px solid var(--line);border-left:5px solid var(--bib);background:var(--surface);color:var(--ink);border-radius:14px;padding:12px 14px}
 .evcard-top{display:flex;justify-content:space-between;align-items:center;gap:8px}
-.evhero,.evban{display:flex;flex-direction:column;gap:2px;width:100%;text-align:left;border:0;border-radius:16px;padding:16px 18px;color:#fff;background:linear-gradient(135deg,var(--bib),#a8400f)}
+.evhero,.evban{display:flex;flex-direction:column;gap:2px;width:100%;text-align:left;border:0;border-radius:16px;padding:16px 18px;color:#fff;background:linear-gradient(135deg,var(--bib-fill),#9A3B0D)}
 .evhero b,.evban b{font-family:var(--display);font-size:1.8rem;line-height:1.05}
 .evhero-l,.evban-l{font-size:.82rem;font-weight:700;opacity:.9}
 .evban{margin:16px 0 0}
@@ -850,7 +863,8 @@ function ticket(s,label){
   const meta=[groupLabel(s.group),s.endTime?"until "+s.endTime:"",s.location].filter(Boolean).join(", ");
   const stub=a.marked?`<span class="ringbox">${ring(pct)}<span class="ring-n">${a.inn}<small>/${a.elig}</small></span></span><span class="stub-l">players in</span>`
     :`<span class="stub-big">${a.elig}</span><span class="stub-l">expected</span><span class="stub-cta">Take attendance</span>`;
-  return `<button class="ticket" data-act="open-session" data-id="${esc(s.id)}" aria-label="${esc(label+": "+(s.focus||s.type)+", "+meta)}">
+  const status=a.marked?`${a.inn} of ${a.elig} players in`:`${a.elig} expected, attendance not taken`;
+  return `<button class="ticket" data-act="open-session" data-id="${esc(s.id)}" aria-label="${esc(label+", "+(s.time||"")+": "+(s.focus||s.type)+", "+meta+". "+status)}">
     <span class="ticket-main"><span class="t-label">${label}${match?` <span class="tag match">${esc(s.type)}</span>`:""}</span>
     <span class="t-time">${esc(s.time||"Today")}</span><span class="t-title">${esc(s.focus||s.type)}</span><span class="t-meta">${esc(meta)}</span></span>
     <span class="ticket-stub">${stub}</span></button>`;
@@ -867,7 +881,8 @@ function viewHome(){
     <p style="margin:14px 0 0"><button class="link" data-act="settings">Name your academy and age groups</button></p></section>`;
   }
   const since=addDays(t,-30),rate=groupRate(ap,since),prev=groupRate(ap,addDays(t,-60),addDays(t,-31));
-  let h="";
+  // Sections are built separately, then ordered: today, this week, to do, coming up, at a glance.
+  let h="",week="",todoH="",up="",glance="";
 
   // Matchday tickets
   const todays=occurrences(t,t);
@@ -887,15 +902,15 @@ function viewHome(){
     if(tp.length)h+=`<h2>Today's training program</h2><div class="pg-list">${tp.map(p=>progCard(p)).join("")}</div>`;}
   if(isAdminView()){const evn=events().find(e=>(e.end||e.start)>=t&&e.start<=addDays(t,30));
     if(evn){const dd=Math.round((parseISO(evn.start)-parseISO(t))/864e5),cn=evCount(evn);
-      h+=`<button class="evban" data-act="open-event" data-id="${evn.id}"><span class="evban-l">${dd>0?`Starts in ${dd} day${dd===1?"":"s"}`:"Happening now"}</span><b>${esc(evn.name)}</b><span>${cn.n?`${cn.p} of ${cn.n} matches played`:"Set up teams and fixtures"}</span></button>`}}
+      up+=`<button class="evban" data-act="open-event" data-id="${evn.id}"><span class="evban-l">${dd>0?`Starts in ${dd} day${dd===1?"":"s"}`:"Happening now"}</span><b>${esc(evn.name)}</b><span>${cn.n?`${cn.p} of ${cn.n} matches played`:"Set up teams and fixtures"}</span></button>`}}
   // Week strip
   const ws=weekStart(t),occW=occurrences(ws,addDays(ws,6));
-  h+=`<div class="weekstrip" role="group" aria-label="This week">${[0,1,2,3,4,5,6].map(i=>{const d=addDays(ws,i),n=occW.filter(s=>s.date===d).length,dt=parseISO(d);
-    return `<button class="wday${d===t?" now":""}${d<t?" past":""}" data-act="tab" data-tab="schedule" aria-label="${fmt(d)}: ${n} session${n===1?"":"s"}"><span>${DAYN[dt.getDay()].slice(0,1)}</span><b>${dt.getDate()}</b><i>${"<em></em>".repeat(Math.min(n,3))}</i></button>`}).join("")}</div>`;
+  week=`<div class="weekstrip" role="group" aria-label="This week">${[0,1,2,3,4,5,6].map(i=>{const d=addDays(ws,i),n=occW.filter(s=>s.date===d).length,dt=parseISO(d);
+    return `<button class="wday${d===t?" now":""}${d<t?" past":""}" data-act="tab" data-tab="schedule"${d===t?' aria-current="date"':""} aria-label="${d===t?"Today, ":""}${fmt(d)}: ${n} session${n===1?"":"s"}"><span>${DAYN[dt.getDay()].slice(0,1)}</span><b>${dt.getDate()}</b><i>${"<em></em>".repeat(Math.min(n,3))}</i></button>`}).join("")}</div>`;
 
   // Next match
   const nm=occurrences(addDays(t,1),addDays(t,45)).find(s=>s.type==="Match"||s.type==="Tournament");
-  if(nm)h+=`<button class="fixture" data-act="open-session" data-id="${esc(nm.id)}"><span class="fx-date"><b>${parseISO(nm.date).getDate()}</b>${fmt(nm.date,{month:"short"})}</span>
+  if(nm)up+=`<button class="fixture" data-act="open-session" data-id="${esc(nm.id)}"><span class="fx-date"><b>${parseISO(nm.date).getDate()}</b>${fmt(nm.date,{month:"short"})}</span>
     <span style="min-width:0"><span class="fx-l">Next ${nm.type.toLowerCase()}</span><span class="fx-t">${esc(nm.focus||"Opponent to be confirmed")}</span><span class="smeta">${esc([groupLabel(nm.group),fmt(nm.date,{weekday:"long"}),nm.time,nm.location].filter(Boolean).join(", "))}</span></span></button>`;
 
   // Pulse
@@ -905,7 +920,7 @@ function viewHome(){
   const fpct=exp?Math.round(col/exp*100):null;
   const d=rate!=null&&prev!=null?rate-prev:null;
   const groups=settings.groups.map(g=>[g,ap.filter(p=>p.group===g).length]).filter(x=>x[1]);
-  h+=`<div class="pulse">
+  glance=`<div class="pulse">
     <button class="tile tile-pitch" data-act="tab" data-tab="attendance"><span class="tile-l">Attendance, last 30 days</span><b class="tile-big">${rate==null?"—":rate+"<small>%</small>"}</b>
       <span class="tile-s">${d==null?(rate==null?"Take attendance to see trends":"Across all groups"):d===0?"Same as the month before":(d>0?"Up ":"Down ")+Math.abs(d)+" points on the month before"}</span></button>
     ${!isAdminView()?(()=>{const mc=cdoc(myCoachId()),n=coachSessions(Object.assign({id:myCoachId()},mc),m).length;return `<button class="tile" data-act="tab" data-tab="attendance"><span class="tile-l">Your sessions this month</span><b class="tile-big">${n}</b><span class="tile-s">With attendance taken</span></button>`})()
@@ -937,15 +952,17 @@ function viewHome(){
   if(adm&&feeOver.length)todo.push(["tab","fees",feeOver.length,"late",`${pl(feeOver.length)} with overdue fees, ${money(feeOver.reduce((x,p)=>x+p.L.balance,0))} in total`]);
   if(lowAtt.length)todo.push(["tab","attendance",lowAtt.length,"late",`${pl(lowAtt.length)} below 70% attendance`]);
   if(due.length)todo.push(["tab","progress",due.length,"excused",`${pl(due.length)} due for a skills assessment`]);
-  h+=`<h2>To do</h2>`+(todo.length?`<div class="list">${todo.map(([act,v,n,c,txt])=>`<button class="todo" data-act="${act}" ${act==="tab"?`data-tab="${v}"`:act==="open-session"?`data-id="${esc(v)}"`:""}><span class="todo-n" style="background:var(--${c})">${n}</span><span class="todo-t">${txt}</span><span class="chev" aria-hidden="true">›</span></button>`).join("")}</div>`
+  todoH=`<h2>To do${todo.length?`<span class="h-count">${todo.length}</span>`:""}</h2>`+(todo.length?`<div class="list">${todo.map(([act,v,n,c,txt])=>`<button class="todo" data-act="${act}" ${act==="tab"?`data-tab="${v}"`:act==="open-session"?`data-id="${esc(v)}"`:""}><span class="todo-n" style="background:var(--${c})">${n}</span><span class="todo-t">${txt}</span><span class="chev" aria-hidden="true">›</span></button>`).join("")}</div>`
     :`<div class="panel allclear"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--present)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span>All clear. Attendance, fees and assessments are up to date.</span></div>`);
+  h+=week+todoH+(up?`<h2>Coming up</h2>`+up:"")+`<h2>At a glance</h2>`+glance;
 
   // Form guide
   const rec=sessions().filter(s=>s.date<=t&&Object.keys(s.attendance||{}).length).sort((a,b)=>byTime(b,a)).slice(0,6).reverse();
   if(rec.length){
     h+=`<h2>Form guide</h2><p class="muted small" style="margin:-4px 0 10px">Turnout at your last ${rec.length} session${rec.length===1?"":"s"}, oldest to newest.</p>
     <div class="formguide">${rec.map(s=>{const a=attCount(s),p=a.elig?Math.round(a.inn/a.elig*100):0,c=p>=80?"present":p>=60?"late":"absent";
-      return `<button class="fg" data-act="open-session" data-id="${esc(s.id)}" aria-label="${fmt(s.date)}, ${p}% turnout"><b style="background:var(--${c})">${p}<small>%</small></b><span>${fmt(s.date,{day:"numeric",month:"short"})}</span></button>`}).join("")}</div>`;
+      return `<button class="fg" data-act="open-session" data-id="${esc(s.id)}" aria-label="${fmt(s.date)}, ${p}% turnout"><b style="background:var(--${c})">${p}<small>%</small></b><span>${fmt(s.date,{day:"numeric",month:"short"})}</span></button>`}).join("")}</div>
+    <p class="fg-key"><span><i style="background:var(--present)"></i>80% or more</span><span><i style="background:var(--late)"></i>60 to 79%</span><span><i style="background:var(--absent)"></i>Below 60%</span></p>`;
   }
 
   // Spotlight
